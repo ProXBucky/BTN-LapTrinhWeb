@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/exam.css">
+    <title>Hệ thống thi trắc nghiệm PTIT</title>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <image class="img-logo" src="/images/ptit-logo.png"></image>
+            </a>
+        </div>
+    </nav>
+   
+   
+     <div id="result" >
+         <h2 class="result-user"></h2> 
+         <div id="questions"> 
+             <div class="questions-body"> 
+                 <h1>Kết quả bài làm</h1> 
+                 <div class="info">
+	                 <div>
+		                 <p th:text="'Họ và tên: ' + ${student.fullname}"></p> 
+		                 <p th:text="'Ngày sinh: ' + ${student.dob.toString().substring(0, 10)}"></p> 
+		                 <p th:text="'Mã sinh viên: ' + ${student.studentId}"></p> 
+		                 <p th:text="'Lớp: '+ ${student.classname}"></p> 
+	                 </div>
+                 </div>
+                <table id="tableKythi">
+		        	<thead>
+			    		<tr>
+					       <th>Tên môn</th>
+				           <th>Điểm</th>
+			    		</tr>
+			    	</thead>
+			    	<tbody>
+				    	<tr th:each="result : ${results}">
+				    		<td th:text="${result.traloi}"></td>
+							<td th:text="${result.diem}"></td> 
+				        </tr>
+			    	</tbody>
+		        </table>
+                
+				
+		        <div class="submit-btn">
+	                <input class="submit-exam" type="submit" value="Quay lại" onClick="backHomePage()">
+	            </div>
+				
+             </div> 
+         </div> 
+     </div> 
+
+
+ <script>
+   function backHomePage(){
+	   window.location.href = '/dashboard/student-result';
+   }
+</script>
+    <script src="/js/exam.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

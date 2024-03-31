@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="/dashboard" class="logo">
+                <image class="img-logo" src="/images/ptit-logo.png"/>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/dashboard/statistic-page" id="link1">Thống kê</a></li>
+                <li><a href="/dashboard/student-result" id="link1">Kết quả thi</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content">
+	    <div th:if="${successMessage}" class="alert alert-success alert-show">
+		    <p th:text="${successMessage}"></p>
+		</div>
+        <h2>Dashboard Admin</h2>
+
+        <h3>Quản lý danh sách các kỳ thi</h3>
+        <button onclick="renderNewHTML('add-exam')">Thêm mới</button>
+         <table id="tableKythi">
+        	<thead>
+	    		<tr>
+			       <th>Mã môn</th>
+			       <th>Tên môn</th>
+		           <th>Loại kì thi</th>
+		           <th>Thời gian thi (phút)</th>
+		           <th>Giờ mở kì thi</th>
+		           <th>Giờ đóng kì thi</th>
+<!-- 		           <th>Chỉnh sửa</th> -->
+		           <th>Xóa</th>
+	    		</tr>
+	    	</thead>
+	    	<tbody>
+		    	<tr th:each="exam: ${exams}">
+		    		<td th:text="${exam.mamon}"></td>
+		    		<td th:text="${exam.getSubject().getTenmon()}"></td>
+		    		<td th:text="${exam.tenkythi}"></td>
+		    		<td th:text="${exam.tglambai}"></td>
+		    		<td th:text="${exam.tgdongde.toString().substring(0, 10)}"></td>
+		    		<td th:text="${exam.tgmode.toString().substring(0, 10)}"></td>
+<!-- 		    		<td> -->
+<!-- 		    			<a  -->
+<!-- 			    			th:href="@{/dashboard/edit-exam(id=${exam.idkythi})}" -->
+<!-- 			    			class="button" -->
+<!-- 			    		>Chỉnh sửa</a> -->
+<!-- 		    		</td> -->
+		    		<td>
+		    			<a 
+			    			th:href="@{/dashboard/delete-exam(id=${exam.idkythi})}"
+			    			onclick="return confirm('Bạn chắc chắn chưa?')"
+			    			class="button"
+			    		>Xóa</a>
+		    		</td>
+		    	</tr>
+	    	</tbody>
+        </table>
+
+        <h3>Quản lý danh sách người dùng</h3>
+        <button onclick="renderNewHTML('register-user-by-admin')">Thêm mới</button>
+        <table id="tableNguoiDung">
+        	<thead>
+	    		<tr>
+			       <th>ID</th>
+		           <th>MSV</th>
+		           <th>Họ và tên</th>
+		           <th>Lớp</th>
+		           <th>Chỉnh sửa</th>
+		           <th>Xóa</th>
+	    		</tr>
+	    	</thead>
+	    	<tbody>
+		    	<tr th:each="student: ${students}">
+		    		<td th:text="${student.idsinhvien}"></td>
+		    		<td th:text="${student.studentId}"></td>
+		    		<td th:text="${student.fullname}"></td>
+		    		<td th:text="${student.classname}"></td>
+		    		<td style="white-space: nowrap;">
+		    			<a class="button"
+		    				th:href="@{/dashboard/edit-user(id=${student.idsinhvien})}"
+		    				
+		    			>Chỉnh sửa</a>
+		    		</td>
+		    		<td style="white-space: nowrap;">
+		    			<a class="button"
+			    			th:href="@{/dashboard/delete-user(id=${student.idsinhvien})}"
+			    			onclick="return confirm('Bạn chắc chắn chưa?')"
+			    		
+			    		>Xóa</a>
+		    		</td>
+		    	</tr>
+	    	</tbody>
+        </table>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+
+    <script>
+        function renderNewHTML(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+
+</html>

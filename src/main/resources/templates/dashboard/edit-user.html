@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/css/loginUser.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+	integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Hệ thống thi trắc nghiệm PTIT</title>
+</head>
+
+<body>
+	 <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <image class="img-logo" src="/images/ptit-logo.png"></image>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/statistic-page" id="link1">Thống kê</a></li>
+                <li><a href="/student-result" id="link1">Kết quả thi</a></li>
+            </ul>
+        </div>
+    </nav>
+	<div class="border">
+		<div class="content">
+			<h1 class="label-register">Sửa thông tin người dùng</h1>
+			<form id="registerForm" action="/dashboard/edit-user" method="post" enctype="multipart/form-data" th:object="${studentDto}">
+				<label for="id">ID:</label> 
+				<input type="text" id="registerUsername" name="id" required th:value="${student.idsinhvien}" readonly="readonly" disabled="disabled"> 
+				<label for="username">Tên tài khoản:</label> 
+				<input type="text" id="registerUsername" name="username" required th:field="${studentDto.username}"> 
+				<label for="fullname">Họ và tên:</label> 
+				<input type="text" id="registerEmail" name="fullname" required th:field="${studentDto.fullname}"> 
+				<label for="password">Mật khẩu:</label>
+				<input type="text" id="registerPassword" name="password" required th:field="${studentDto.password}"> 
+				<label for="dob">Ngày sinh:</label> 
+				<input type="date" id="registerDob" name="dobString" required th:field="${studentDto.dobString}"> 
+				<label for="classname">Tên lớp:</label>
+				<input type="text" id="registerClassname" name="classname" required th:field="${studentDto.classname}"> 
+				<label for="studentId">Mã sinh viên:</label> 
+				<input type="text" id="registerStudentId" name="studentId" required th:field="${studentDto.studentId}"> 
+				<input type="submit" value="Cập nhật">
+			</form>
+			
+			
+ 		<p th:if="${errorMessage}" style="color: red;">Lỗi: <span th:text="${errorMessage}"></span></p>
+		</div>
+	</div>
+
+
+	<script src="/js/login.js"></script>
+	<script>
+		function renderNewHTML(url) {
+			// Đoạn code này sẽ chuyển hướng người dùng đến trang HTML mới
+			window.location.href = url;
+		}
+	
+        window.onload = function() {
+            // Trích xuất id từ URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id');
+            document.querySelector("form").setAttribute("action", "/dashboard/edit-user?id=" + userId);
+        };
+    
+	</script>
+</body>
+
+</html>

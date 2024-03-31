@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/result.css">
+  <title>Kết quả thi</title>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/dashboard" class="logo">
+        <image class="img-logo" src="/images/ptit-logo.png"></image>
+      </a>
+      <ul class="nav-links">
+         <li><a href="/dashboard/statistic-page" id="link1">Thống kê</a></li>
+         <li><a href="/dashboard/student-result" id="link1">Kết quả thi</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="cover">
+    <div class="">
+      <h1>Kết quả thi</h1>
+      <div class="search-bar">
+			<input type="text" id="myInput" placeholder="Nhập tên sinh viên hoặc mã sinh viên">
+	        <button class="action-button">Tìm kiếm</button>
+      </div>
+       <table id="tableNguoiDung">
+        	<thead>
+	    		<tr>
+			       <th>ID</th>
+		           <th>MSV</th>
+		           <th>Họ và tên</th>
+		           <th>Điểm</th>
+	    		</tr>
+	    	</thead>
+	    	<tbody>
+		    	<tr th:each="student: ${students}">
+		    		<td th:text="${student.idsinhvien}"></td>
+		    		<td th:text="${student.studentId}"></td>
+		    		<td th:text="${student.fullname}"></td>
+		    		<td>
+		    			<a class="button"
+			    			th:href="@{/dashboard/view-result(id=${student.idsinhvien})}"
+			    		>Chi tiết</a>
+		    		</td>
+		    	</tr>
+	    	</tbody>
+        </table>
+    </div>
+  </div>
+  
+  <script>
+  function filterStudents() {
+    // Lấy giá trị từ ô input
+    var input = document.getElementById("myInput");
+    var filter = input.value.toUpperCase();
+    
+    // Lấy bảng và các hàng trong bảng
+    var table = document.getElementById("tableNguoiDung");
+    var rows = table.getElementsByTagName("tr");
+
+    // Lặp qua từng hàng và ẩn hoặc hiện hàng tương ứng
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      var found = false;
+      for (var j = 0; j < cells.length; j++) {
+        var cell = cells[j];
+        if (cell) {
+          var txtValue = cell.textContent || cell.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            found = true;
+            break;
+          }
+        }
+      }
+      // Ẩn hoặc hiện hàng dựa trên kết quả tìm kiếm
+      if (found) {
+        rows[i].style.display = "";
+      } else {
+        rows[i].style.display = "none";
+      }
+    }
+  }
+
+  // Xử lý sự kiện khi nhấn nút Tìm kiếm
+  document.querySelector(".action-button").addEventListener("click", filterStudents);
+
+  // Xử lý sự kiện khi nhấn phím Enter
+  document.getElementById("myInput").addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+      filterStudents();
+    }
+  });
+</script>
+
+<!--   <div class="sdetail"> -->
+<!--     <div class="sdetail__body"> -->
+<!--       <header class="sdetail__header"> -->
+<!--         <h2 class="sdetail__title"></h2> -->
+
+<!--         <div class="sdetail__close"> -->
+<!--           <i class="fa-solid fa-xmark"></i> -->
+<!--         </div> -->
+<!--       </header> -->
+
+<!--       <div class="sdetail__sub-header"> -->
+<!--         <button onclick="getPDF()">Tải xuống báo cáo dưới dạng pdf</button> -->
+<!--       </div> -->
+
+<!--       <div class="sdetail__content"></div> -->
+<!--     </div> -->
+<!--   </div> -->
+
+<!--   <div class="edetail"> -->
+<!--     <div class="edetail__body"> -->
+<!--       <header class="edetail__header"> -->
+<!--         <h2 class="edetail__title"></h2> -->
+
+<!--         <div class="edetail__close"> -->
+<!--           <i class="fa-solid fa-xmark"></i> -->
+<!--         </div> -->
+<!--       </header> -->
+
+<!--       <header class="edetail__sub-header"> -->
+<!--         <div> -->
+<!--           <h2>Kỳ thi 1</h2> -->
+<!--           <p>Điểm: 10</p> -->
+<!--         </div> -->
+
+<!--         <ul> -->
+<!--           <li>Đáp án gạch chân, chữ màu xanh: Sinh viên trả lời đúng</li> -->
+<!--           <li>Đáp án gạch chân, chữ màu đỏ: Sinh viên trả lời sai</li> -->
+<!--           <li>Đáp án chữ màu xanh: Đáp án đúng</li> -->
+<!--           <li>Không thấy gạch chân: Sinh viên không trả lời</li> -->
+<!--         </ul> -->
+<!--       </header> -->
+
+<!--       <div class="edetail__content"></div> -->
+<!--     </div> -->
+<!--   </div> -->
+
+ 
+
+<!--   <script src="https://code.jquery.com/jquery-3.7.1.min.js" -->
+<!--     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> -->
+<!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" -->
+<!--     integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" -->
+<!--     crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+<!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script> -->
+  
+  
+  
+  
+  
+  <script src="/js/result.js"></script>
+</body>
+
+</html>

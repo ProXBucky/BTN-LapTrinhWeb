@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/statistic.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Thống kê</title>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/dashboard" class="logo">
+        <image class="img-logo" src="/images/ptit-logo.png"/>
+      </a>
+      <ul class="nav-links">
+         <li><a href="/dashboard/statistic-page" id="link1">Thống kê</a></li>
+                <li><a href="/dashboard/student-result" id="link1">Kết quả thi</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="main">
+
+    <div class="content">
+        <header>
+          <h1>Thống kê điểm theo môn</h1>
+          <button onclick="getPDF()">Tải xuống dưới dạng PDF</button>
+        </header>
+        
+        <div class="cover">
+          <div id="thongKe">
+             <table id="tableKythi">
+              <thead>
+                <tr>
+                   <th>Mã môn</th>
+                   <th>Tên môn</th>
+                   <th>Số lượng sinh viên</th>
+                   <th>Tỷ lệ hoàn thành</th>
+                   <th>Điểm trung bình</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr th:each="exam: ${exams}">
+                    <td th:text="${exam.mamon}"></td>
+                    <td th:text="${exam.getSubject().getTenmon()}"></td>
+                    <td th:text="${studentCount}"></td>
+                    <td th:text="${exam.resultsCount} + '%'"></td>
+                    <td th:text="${exam.averageScore}"></td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        <div>
+         <form action="#" method="post" id="filterForm">
+             <label for="subject"></label>
+            <select name="subject" id="subject">
+                <option value="all">Tất cả các môn</option>
+                <option th:each="subject : ${subjects}" th:value="${subject.mamon}" th:text="${subject.tenmon}"></option>
+            </select>
+              <button type="submit" class="action-button">Áp dụng</button>
+          </form>
+          <canvas id="myChart"></canvas>
+        </div>
+          
+
+        </div>
+          
+
+    </div>
+  </div>
+  <script src="/js/statistic.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#filterForm').submit(function(event) {
+                event.preventDefault();
+                var selectedSubject = $('#subject').val();
+                $.ajax({
+                    url: '/dashboard/filter?subject=' + selectedSubject, // URL của yêu cầu POST với tham số chú subject
+                    type: 'POST',
+//                     data: { subject: selectedSubject },
+                    success: function(data) {
+                        drawChart(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+        function drawChart(data) {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            
+            // Hủy biểu đồ cũ nếu tồn tại
+            if(window.myChart instanceof Chart){
+                window.myChart.destroy();
+            }
+            
+            // Cập nhật màu mới cho dataset
+            data.datasets.forEach(function(dataset) {
+                dataset.backgroundColor = '#ad171c'; // Màu nền của các cột
+                dataset.borderColor = '#ad171c'; // Màu viền của các cột
+                dataset.borderWidth = 0.1; // Độ dày của đường viền của các cột
+            });
+            
+            // Vẽ biểu đồ mới
+            window.myChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true // Bắt đầu trục y từ giá trị 0
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Số người' // Nhãn cho trục y
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Điểm số' // Nhãn cho trục x
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function getPDF() {
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write('<html><head><title>PDF</title>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h1>Thống kê điểm theo môn</h1>');
+            printWindow.document.write(document.getElementById('thongKe').innerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+
+
+    </script>
+    
+    
+  
+</body>
+
+</html>

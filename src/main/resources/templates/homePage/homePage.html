@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>Hệ thống thi trắc nghiệm PTIT</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <image class="img-logo" src="/images/ptit-logo.png"/>
+            </a>
+        </div>
+    </nav>
+
+    <div class="content">
+        <h1>Chào mừng đến với hệ thống thi trắc nghiệm PTIT</h1>
+        <div class="head-input">
+	        <div>
+		        <input type="text" id="myInput" placeholder="Nhập tên môn...">
+		        <button class="action-button">Tìm kiếm</button>
+	        </div>
+<!-- 	        <input type="text" id="msvInput" placeholder="Nhập MSV"> -->
+			<select id="msvInput">
+				<option value="">Nhập thông tin</option>
+			    <option th:each="student : ${students}" th:value="${student.studentId}" th:text="${student.fullname}"></option>
+			</select>
+
+        </div>
+        
+        <div class="exam-body">
+            <table class="custom-table">
+		        	<thead>
+			    		<tr>
+					       <th>Mã môn</th>
+					       <th>Tên môn</th>
+				           <th>Loại kì thi</th>
+				           <th>Thời gian thi (phút)</th>
+				           <th>Giờ mở kì thi</th>
+				           <th>Giờ đóng kì thi</th>
+				           <th>Hành động</th>      
+			    		</tr>
+			    	</thead>
+			    	<tbody>
+				    	<tr th:each="exam: ${exams}">
+				    		<td th:text="${exam.mamon}"></td>
+				    		<td th:text="${exam.getSubject().getTenmon()}"></td>
+				    		<td th:text="${exam.tenkythi}"></td>
+				    		<td th:text="${exam.tglambai}"></td>
+				    		<td th:text="${exam.tgdongde.toString().substring(0, 10)}"></td>
+				    		<td th:text="${exam.tgmode.toString().substring(0, 10)}"></td>
+							<td>
+							    <a th:href="@{/exam/start-exam(id=${exam.idkythi})}" th:onclick="|return startExam('${exam.idkythi}');|"
+							        class="action-button">Làm bài</a>
+							</td>
+				    	</tr>
+			    	</tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+    
+  <script th:inline="javascript">
+    function startExam(examId) {
+        var msv = document.getElementById('msvInput').value.trim().toUpperCase();
+        if (msv.trim() === '') {
+            alert('Vui lòng chọn thông tin của bạn');
+            return false;
+        } else {
+            var url = '/exam/start-exam?id=' + examId + '&msv=' + msv;
+            if (confirm('Bạn chắc chắn vào thi chưa?')) {
+                window.location.href = url;
+            }
+        }
+        return false;
+    }
+</script>
+    <script>
+        function renderNewHTML(url) {
+            window.location.href = url;
+        }
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('myInput');
+            const searchButton = document.querySelector('.action-button');
+            
+            // Lọc khi nhấn nút "Tìm kiếm"
+            searchButton.addEventListener('click', filterTable);
+            
+            // Lọc khi nhấn phím "Enter" trong ô tìm kiếm
+            searchInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    filterTable();
+                }
+            });
+            
+            function filterTable() {
+                const filter = searchInput.value.toUpperCase();
+                const table = document.querySelector('.custom-table');
+                const rows = table.getElementsByTagName('tr');
+                
+                for (let i = 0; i < rows.length; i++) {
+                    const tdSubject = rows[i].getElementsByTagName('td')[1];
+                    const tdExamType = rows[i].getElementsByTagName('td')[2];
+                    
+                    if (tdSubject || tdExamType) {
+                        const subjectValue = tdSubject.textContent || tdSubject.innerText;
+                        const examTypeValue = tdExamType.textContent || tdExamType.innerText;
+                        
+                        if (subjectValue.toUpperCase().indexOf(filter) > -1 || examTypeValue.toUpperCase().indexOf(filter) > -1) {
+                            rows[i].style.display = '';
+                        } else {
+                            rows[i].style.display = 'none';
+                        }
+                    }       
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

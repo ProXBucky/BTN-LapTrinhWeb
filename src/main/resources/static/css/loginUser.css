@@ -1,0 +1,247 @@
+:root {
+    --main-color: #AD171C;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column; */
+}
+
+.border {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    background-color: #fff;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    width: 400px;
+}
+
+h2 {
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--main-color);
+}
+
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal__panel {
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    width: 500px;
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    color: var(--main-color);
+}
+
+.modal__header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.modal__header i {
+    color: var(--main-color);
+    font-size: 20px;
+    transition: all ease .2s;
+    cursor: pointer;
+}
+
+.modal__header i:hover {
+    opacity: 0.6;
+}
+
+.modal__form input {
+    margin-top: 16px;
+}
+
+.modal__signup {
+    margin-top: 16px;
+    width: 100%;
+}
+
+.signup {
+    background-color: var(--main-color);
+    /* Màu nền */
+    border: none;
+    /* Không có đường viền */
+    color: white;
+    /* Màu chữ */
+    padding: 7px 10px;
+    /* Kích thước đệm */
+    text-align: center;
+    /* Căn giữa nội dung */
+    text-decoration: none;
+    /* Không gạch chân */
+    display: inline-block;
+    /* Hiển thị như block */
+    font-size: 13px;
+    /* Kích thước chữ */
+    margin: 4px 2px;
+    /* Khoảng cách ngoài */
+    cursor: pointer;
+    /* Con trỏ khi rê chuột */
+    border-radius: 8px;
+    /* Bo tròn góc */
+}
+
+/* CSS cho nút khi di chuột qua */
+.signup:hover {
+    background-color: var(--main-color);
+}
+
+/* CSS cho nút khi được nhấn */
+.signup:active {
+    background-color: var(--main-color);
+}
+
+h2 {
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--main-color);
+}
+
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.label-register {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+	color: var(--main-color);
+}
+
+.label-login {
+    color: var(--main-color);
+}
+
+
+.navbar {
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 10px 0;
+    border-bottom: 1px solid #ad171c;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+.logo .img-logo {
+    border-radius: 100%;
+    height: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: white;
+
+}
+
+.registerDob{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-right: 20px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+

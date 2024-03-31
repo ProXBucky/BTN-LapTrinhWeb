@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/exam.css">
+    <title>Hệ thống thi trắc nghiệm PTIT</title>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <image class="img-logo" src="/images/ptit-logo.png"></image>
+            </a>
+        </div>
+    </nav>
+    <!-- Questions -->
+    <div id="questions">
+        <div class="questions-body">
+            <div class="questions-body-title">
+                <h1>Câu hỏi</h1>
+              <div class="countdown">
+			    <p id="timer" th:text="${thoigianlambai} +':00'"></p>
+			</div>
+            </div>
+			<div class="question-group" th:each="question1, questionIndex : ${questions}">
+				<div class="question">
+					 <h4 class="label-question" th:text="'Câu hỏi ' +${questionIndex.index + 1} + ': ' + ${question1.noidung}  "></h4><br />
+					        <!-- Lặp qua danh sách answers -->
+					  <div class="answer-div" th:each="answer, answerIndex : ${answers}">
+					            <!-- Kiểm tra xem chỉ lấy câu trả lời tương ứng với câu hỏi hiện tại -->
+						  <th:block th:if="${answerIndex.index / 4 == questionIndex.index}">
+						       <input class="answer-input" type="radio" th:id="'answer' + ${questionIndex.index} + ${answerIndex.index % 4}" th:name="'group' + ${questionIndex.index}"  th:value="${answer.dungSai ? 1 : 0}">
+						       <label th:for="'answer' + ${questionIndex.index} + ${answerIndex.index % 4}" th:text="${answer.noidung}"></label>
+						 </th:block>
+					 </div>
+				</div>
+			</div>	
+            <div class="submit-btn">
+                <input class="submit-exam" type="submit" value="Nộp bài" onClick="submitExam()">
+            </div>
+        </div>
+    </div>
+
+
+    
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var remainingTimeInMinutes = /*[[${thoigianlambai}]]*/;
+    var remainingTimeInSeconds = remainingTimeInMinutes * 60; 
+
+    var timerElement = document.getElementById('timer')
+
+    function updateTimer() {
+        var minutes = Math.floor(remainingTimeInSeconds / 60);
+        var seconds = remainingTimeInSeconds % 60;
+
+        var formattedTime = ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+        timerElement.textContent = formattedTime;
+        remainingTimeInSeconds--;
+
+        if (remainingTimeInSeconds < 0) {
+            clearInterval(timerInterval);
+            timerElement.textContent = '00:00'; 
+        }
+    }
+    var timerInterval = setInterval(updateTimer, 1000);
+    /*]]>*/
+</script>
+
+
+<script>
+
+function calculateScore(answer, correctAnswer) {
+    if (answer.length !== correctAnswer.length) {
+        return 0; 
+    }
+    var score = 0;
+    for (var i = 0; i < answer.length; i++) {
+        if (answer.charAt(i) === correctAnswer.charAt(i) && correctAnswer.charAt(i) == '1') {
+            score++; 
+        }
+    }
+    return score;
+}
+
+
+function submitExam() {
+    var answerInputs = document.querySelectorAll('.answer-input');
+    var selectedPick = '';
+    var answerString = '';
+    answerInputs.forEach(function(input) {
+        if (input.checked) {
+            selectedPick += '1';
+        }
+        else{
+        	selectedPick += '0';
+        }
+    });
+    answerInputs.forEach(function(input, index) {
+    	answerString += input.value;
+    });
+  
+    console.log("Đáp án: ", answerString);
+    console.log("Hành trình: ", selectedPick);
+ 
+    var score = calculateScore(selectedPick, answerString);
+    console.log("Điểm số: " + score);
+    
+    var urlParams = new URLSearchParams(window.location.search);
+    var msv = urlParams.get('msv');
+    var id = urlParams.get('id');
+    window.location.href = "/exam/user-result?id=" + id + "&score=" + score + "&msv=" + msv + "&ht=" + selectedPick;
+}
+
+		
+
+</script>
+
+    
+
+
+    <script src="/js/exam.js"></script>
+</body>
+
+</html>

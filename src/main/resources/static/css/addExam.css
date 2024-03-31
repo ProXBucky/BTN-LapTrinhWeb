@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.logo {
+    font-size: 1rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+.logo .img-logo {
+    border-radius: 100%;
+    height: 60px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: white;
+
+}
+
+:root {
+    --main-color: #AD171C;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 10px 0;
+    border-bottom: 1px solid #ad171c;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-right: 20px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+
+.content {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(6, 5, 5, 0.582);
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select{
+	width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+
+input[type="text"],
+input[type="date"],
+input[type="number"]
+ {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="submit"]
+ {
+    padding: 10px 20px;
+    background-color: #ad171c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #ad171c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #b80505;
+}
+
+#danhSachCauHoi {
+    margin-bottom: 20px;
+}
+
+.cau-hoi {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+#titleInput {
+    margin-left: 400px;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#fileInput {
+    margin-left: 400px;
+}
+
+.footer {
+    display: flex;
+}

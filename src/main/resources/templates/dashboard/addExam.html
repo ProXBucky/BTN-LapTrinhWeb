@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Tạo/Chỉnh sửa Kỳ thi</title>
+    <link rel="stylesheet" href="/css/addExam.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/dashboard" class="logo">
+                <image class="img-logo" src="/images/ptit-logo.png"></image>
+            </a>
+        </div>
+    </nav>
+
+    <div class="content">
+        <h2>Trang Tạo Kỳ thi</h2>
+        <form action="dashboard/create-exam" method="post">
+			    <label for="maMon">Mã Môn:</label>
+			    <input type="text" id="maMon" name="maMon"><br><br>
+			    
+			    <label for="tenMon">Tên Môn:</label>
+			    <input type="text" id="tenMon" name="tenMon"><br><br>
+			    
+<!-- 			    <label for="tenKythi">Tên Kỳ Thi:</label> -->
+<!-- 			    <input type="text" id="tenKythi" name="tenKythi"><br><br> -->
+				<label for="tenKythi">Loại Kỳ Thi:</label>
+				<select id="tenKythi" name="tenKythi">
+				  <option value="Luyện tập">Luyện tập</option>
+				  <option value="Giữa kỳ">Giữa kỳ</option>
+				  <option value="Cuối kỳ">Cuối kỳ</option>
+				</select><br><br>
+
+			    <label for="tglambai">Thời Gian Làm Bài (phút):</label>
+			    <input type="number" id="tglambai" name="tglambai"><br><br>
+			    
+			    <label for="tongsocau">Tổng Số Câu:</label>
+			    <input type="number" id="tongsocau" name="tongsocau"><br><br>
+			    
+			    <label for="tgmode">Thời Gian Mở Đề:</label>
+			    <input type="date" id="tgmode" name="tgmode"><br><br>
+			    
+			    <label for="tgdongde">Thời Gian Đóng Đề:</label>
+			    <input type="date" id="tgdongde" name="tgdongde"><br><br>
+			    
+			    <div id="questions">
+			        <div class="question">
+					    <label for="questionContent1">Nội Dung Câu Hỏi:</label>
+					    <input type="text" id="questionContent1" name="questions[0].noidung"><br><br>
+					    
+					    <label>Câu Trả Lời 1:</label>
+					    <input type="checkbox" id="correctAnswer1" name="answers[0].dungSai">
+					    <label for="correctAnswer1">Đúng</label>
+					    <input type="text" id="answer1" name="answers[0].noidung"><br>
+					    
+					    <label>Câu Trả Lời 2:</label>
+					    <input type="checkbox" id="correctAnswer2" name="answers[1].dungSai">
+					    <label for="correctAnswer2">Đúng</label>
+					    <input type="text" id="answer2" name="answers[1].noidung"><br>
+					    
+					    <label>Câu Trả Lời 3:</label>
+					    <input type="checkbox" id="correctAnswer3" name="answers[2].dungSai">
+					    <label for="correctAnswer3">Đúng</label>
+					    <input type="text" id="answer3" name="answers[2].noidung"><br>
+					    
+					    <label>Câu Trả Lời 4:</label>
+					    <input type="checkbox" id="correctAnswer4" name="answers[3].dungSai">
+					    <label for="correctAnswer4">Đúng</label>
+					    <input type="text" id="answer4" name="answers[3].noidung"><br><br>
+					    
+					    <button type="button" onclick="removeQuestion(this)">Xóa Câu Hỏi</button><br><br>
+					</div>
+			    </div>
+			    
+			    <button type="button" onclick="addQuestion()">Thêm Câu Hỏi</button><br><br>
+			    
+			    <input type="submit" value="Tạo Đề Thi">
+	    </form>
+    </div>
+
+    <script src="/js/chinhSua.js"></script>
+    <script>
+    
+    function setCorrectAnswer(element, index) {
+        var checkboxs = document.querySelectorAll(`input[name="answers[${index}].dungSai"]`);
+        for (var i = 0; i < checkboxs.length; i++) {
+            if (checkboxs[i] !== element) {
+                checkboxs[i].checked = false;
+            }
+        }
+    }
+    
+    var questionIndex = 1; // Chỉ số câu hỏi, bắt đầu từ 1
+
+    function addQuestion() {
+        questionIndex++; // Tăng chỉ số câu hỏi
+        var questionHtml = `
+        	<div class="question">
+            <label for="questionContent${questionIndex}">Nội Dung Câu Hỏi:</label>
+            <input type="text" id="questionContent${questionIndex}" name="questions[${questionIndex - 1}].noidung"><br><br>
+            
+            <label>Câu Trả Lời 1:</label>
+            <input type="checkbox" id="correctAnswer${questionIndex * 4 - 4}" name="answers[${questionIndex * 4 - 4}].dungSai" value="true">
+            <label for="correctAnswer${questionIndex * 4 - 4}">Đúng</label>
+            <input type="text" id="answer1" name="answers[${questionIndex * 4 - 4}].noidung"><br>
+            
+            <label>Câu Trả Lời 2:</label>
+            <input type="checkbox" id="correctAnswer${questionIndex * 4 - 3}" name="answers[${questionIndex * 4 - 3}].dungSai" value="true">
+            <label for="correctAnswer${questionIndex * 4 - 3}">Đúng</label>
+            <input type="text" id="answer2" name="answers[${questionIndex * 4 - 3}].noidung"><br>
+            
+            <label>Câu Trả Lời 3:</label>
+            <input type="checkbox" id="correctAnswer${questionIndex * 4 - 2}" name="answers[${questionIndex * 4 - 2}].dungSai" value="true">
+            <label for="correctAnswer${questionIndex * 4 - 2}">Đúng</label>
+            <input type="text" id="answer3" name="answers[${questionIndex * 4 - 2}].noidung"><br>
+            
+            <label>Câu Trả Lời 4:</label>
+            <input type="checkbox" id="correctAnswer${questionIndex * 4 - 1}" name="answers[${questionIndex * 4 - 1}].dungSai" value="true">
+            <label for="correctAnswer${questionIndex * 4 - 1}">Đúng</label>
+            <input type="text" id="answer4" name="answers[${questionIndex * 4 - 1}].noidung"><br><br>
+            
+            <button type="button" onclick="removeQuestion(this)">Xóa Câu Hỏi</button><br><br>
+        </div>
+        `;
+        document.getElementById("questions").insertAdjacentHTML('beforeend', questionHtml);
+    }
+
+    function removeQuestion(button) {
+        button.parentNode.remove(); 
+    }
+</script>
+    
+
+</body>
+
+</html>
+
+
+
+
+
+

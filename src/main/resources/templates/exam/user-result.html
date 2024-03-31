@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/exam.css">
+    <title>Hệ thống thi trắc nghiệm PTIT</title>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <image class="img-logo" src="/images/ptit-logo.png"></image>
+            </a>
+        </div>
+    </nav>
+   
+   
+     <div id="result" >
+         <h2 class="result-user"></h2> 
+         <div id="questions"> 
+             <div class="questions-body"> 
+                 <h1>Kết quả bài làm</h1> 
+                 <div class="info">
+	                 <div>
+		                 <p th:text="'Họ và tên: ' + ${student.fullname}"></p> 
+		                 <p th:text="'Ngày sinh: ' + ${student.dob.toString().substring(0, 10)}"></p> 
+		                 <p th:text="'Mã sinh viên: ' + ${student.studentId}"></p> 
+		                 <p th:text="'Lớp: '+ ${student.classname}"></p> 
+		                 <p th:text="'Số câu đúng: '+ ${score} + '/' + ${exam.tongsocau}"></p> 
+	                 </div>
+	                 <h2 class="countdown1" th:text="${diemSoRounded}"></p>
+                 </div>
+                
+				<div class="question-group" th:each="question1, questionIndex : ${questions}">
+					 <div th:if="${questionIndex.index < indices.size()}" th:with="indice=${indices[questionIndex.index]}">
+					       <div class="question" >
+								<h4 class="label-question" th:text="'Câu hỏi ' +${questionIndex.index + 1} + ': ' + ${question1.noidung}  "></h4><br />
+									<div class="answer-div" th:each="answer, answerIndex : ${answers}">
+										<th:block th:if="${answerIndex.index / 4 == questionIndex.index}" >
+														<input th:checked="${answerIndex.index % 4 == indice}" disabled="disabled" class="answer-input" type="radio" th:id="'answer' + ${questionIndex.index} + ${answerIndex.index % 4}" th:name="'group' + ${questionIndex.index}"  th:value="${answer.dungSai ? 1 : 0}">
+														<label th:for="'answer' + ${questionIndex.index} + ${answerIndex.index % 4}" th:text="${answer.noidung}"></label>
+											</th:block>
+									</div>
+							</div>
+					</div>	
+	    	   </div>
+		        <div class="submit-btn">
+	                		<input class="submit-exam" type="submit" value="Quay lại" onClick="backHomePage()">
+	            </div>
+				
+             </div> 
+         </div> 
+     </div> 
+
+
+ <script>
+   function backHomePage(){
+	   window.location.href = '/homepage';
+   }
+</script>
+    <script src="/js/exam.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
