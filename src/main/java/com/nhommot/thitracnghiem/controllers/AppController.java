@@ -13,6 +13,8 @@ import com.nhommot.thitracnghiem.models.Student;
 import com.nhommot.thitracnghiem.repository.ExamRepository;
 import com.nhommot.thitracnghiem.repository.StudentRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 
 @Controller()
 @RequestMapping("/")
@@ -22,59 +24,129 @@ public class AppController {
 	private ExamRepository examRepo;
 	
 	@Autowired
-	private StudentRepository studentRepo;
+	private StudentRepository studentRepository;
+	
+	public Student findStudentByUsername(String username) {
+		Student student = studentRepository.findByUsername(username);
+		return student;
+	}
 	
 	
 	@GetMapping("homepage")
-	public String getHomePage(Model model) {
-		List<Exam> exams = examRepo.findAll();
-		List<Student> students = studentRepo.findAll();
-		model.addAttribute("students", students);
-		model.addAttribute("exams", exams);
-		return "homePage/homePage";
+	public String getHomePage(Model model, HttpSession session) {
+	    try {
+	    	String username = (String) session.getAttribute("username");
+	        String fullname = (String) session.getAttribute("fullname");
+	        String msv = (String) session.getAttribute("msv");
+			if(msv != null) {
+				if(username != null) {
+					// Check đây là admin
+				            Student student = findStudentByUsername(username);
+				            List<Exam> exams = examRepo.findAll();
+				            model.addAttribute("student", student.getStudentId());
+				            model.addAttribute("exams", exams);
+				            model.addAttribute("fullname", fullname);
+				            return "homePage/homePage";
+				
+				} 
+				else {
+				     return "redirect:/login";    	 
+				}
+			}
+			else {
+					 return "redirect:/404"; 
+			}	
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "errorPage";
+	    }
 	}
+
 	
 	@GetMapping("/")
-	public String getLoginPageUser() {
-		return "login-user/loginUser.html";
+	public String getLoginPageUser(HttpSession session) {
+		try {
+			String username = (String) session.getAttribute("username");
+			if(username != null) {
+				return "redirect:/homepage";
+			}else {
+				return "login-user/loginUser.html";				
+			}
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		    return "errorPage";
+		}
 	}
 	
+	@GetMapping("login")
+	public String getLoginPageUser1(HttpSession session) {
+		try {
+			String username = (String) session.getAttribute("username");
+			if(username != null) {
+				return "redirect:/homepage";
+			}else {
+				return "login-user/loginUser.html";				
+			}
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		    return "errorPage";
+		}	}
+	
 	@GetMapping("login-admin")
-	public String getLoginPageAdmin() {
-		return "login/login.html";
+	public String getLoginPageAdmin(HttpSession session) {
+		try {
+			String username = (String) session.getAttribute("username");
+			if(username != null) {
+				return "redirect:/homepage";
+			}else {
+				return "login/login";				
+			}
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		    return "errorPage";
+		}
 	}
 	
 	@GetMapping("register-user")
-	public String getRegisterPageUser() {
-		return "login-user/registerUser.html";
+	public String getRegisterPageUser(HttpSession session) {
+		try {
+			String username = (String) session.getAttribute("username");
+			if(username != null) {
+				return "redirect:/homepage";
+			}else {
+				return "login-user/registerUser";				
+			}
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		    return "errorPage";
+		}
 	}
 	
-	@GetMapping("register-admin")
-	public String getRegisterPageAdmin() {
-		return "login/register.html";
+	@GetMapping("/register-admin")
+	public String getRegisterPageAdmin(HttpSession session) {
+		try {
+			String username = (String) session.getAttribute("username");
+			if(username != null) {
+				return "redirect:/homepage";
+			}else {
+				return "login/register";				
+			}
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		    return "errorPage";
+		}
 	}
 	
-	@GetMapping("exam")
+	@GetMapping("/404")
 	public String getExamPage() {
-		return "exam/exam.html";
+		  return "homePage/404.html";
 	}
-	
-	
-	/*
-	 * @GetMapping("dashboard/statistic-page") public String getStatisticPage() {
-	 * return "dashboard/statistic.html"; }
-	 */
-	
-	@GetMapping("register-user-by-admin")
-	public String getRegisterUserByAdminPage() {
-		return "dashboard/registerUserByAdmin.html";
-	}
-	
-	@GetMapping("add-exam")
-	public String getCreateExamPage() {
-		return "dashboard/addExam.html";
-	}
-	
-	
 
 }
+
+

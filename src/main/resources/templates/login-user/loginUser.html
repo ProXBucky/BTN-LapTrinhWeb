@@ -23,7 +23,7 @@
     <div class="border">
         <div class="content">
             <h2 class="label-login">Đăng nhập</h2>
-            <form id="loginForm" action="/user/login" method="post" enctype="multipart/form-data">
+            <form id="loginForm" action="/auth/login-user" method="post">
                 <label for="username">Tên người dùng:</label>
                 <input type="text" id="loginUsername" name="username" required>
                 <label for="password">Mật khẩu:</label>
@@ -31,6 +31,7 @@
                 <p>Nếu bạn chưa có tài khoản, đăng ký <button class="signup" onclick="renderNewHTML('/register-user')">tại đây</button></p>
                 <input type="submit" value="Đăng nhập">
             </form>
+        		<p th:if="${errorMessage}" style="color: red;">Lỗi: <span th:text="${errorMessage}"></span></p>
         </div>
     </div>
 

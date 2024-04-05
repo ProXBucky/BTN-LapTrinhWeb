@@ -147,3 +147,14 @@ body {
     text-decoration: none;
     font-size: 16px;
 }
+
+.nav-links p a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.logout{
+	cursor: pointer;
+	margin-left: 10px;
+}

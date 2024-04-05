@@ -59,7 +59,11 @@ body {
     text-decoration: none;
     font-size: 16px;
 }
-
+.nav-links p a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
 
 .content {
     max-width: 800px;
@@ -146,4 +150,8 @@ button:hover {
 
 .footer {
     display: flex;
+}
+.logout{
+	cursor: pointer;
+	margin-left: 10px;
 }

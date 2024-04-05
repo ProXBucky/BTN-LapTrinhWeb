@@ -15,12 +15,13 @@
 <body>
 	 <nav class="navbar">
         <div class="container">
-            <a href="/" class="logo">
+            <a href="/dashboard" class="logo">
                 <image class="img-logo" src="/images/ptit-logo.png"></image>
             </a>
             <ul class="nav-links">
                 <li><a href="/statistic-page" id="link1">Thống kê</a></li>
                 <li><a href="/student-result" id="link1">Kết quả thi</a></li>
+                 <li><a th:href="@{/auth/logout}"><i class="fa-solid fa-right-from-bracket logout"></i></a></li>
             </ul>
         </div>
     </nav>
