@@ -10,6 +10,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -228,7 +229,7 @@ public class DashboardController {
     
     
 
-    @GetMapping("delete-exam")
+    @DeleteMapping("delete-exam")
    @Transactional
     public String deleteExamById(@RequestParam("id") Long id, HttpSession session) {
     	try {
@@ -278,7 +279,7 @@ public class DashboardController {
     }
 
     
-    @GetMapping("/delete-user")
+    @DeleteMapping("/delete-user")
     public String deleteUserById(@RequestParam("id") Long id, HttpSession session) {
     	try {
     		String username = (String) session.getAttribute("username");
